@@ -37,6 +37,12 @@ module OfficeAutopilot
             parse_contacts_xml(response)
          end
 
+         def contacts_add_tag (options)
+            xml = xml_for_tag(options)
+            response = request(:post, CONTACTS_ENDPOINT, :body => {'reqType' => 'add_tag', 'data' => xml})
+            parse_tags_xml(response)
+         end
+
          private
 
          def parse_contacts_xml(response)

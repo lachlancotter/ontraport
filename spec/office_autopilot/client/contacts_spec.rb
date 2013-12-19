@@ -196,15 +196,25 @@ describe OfficeAutopilot::Client::Contacts do
       end
    end
 
-   # describe "#contacts_add_tag" do
-   #    it "returns the newly added tags" do
-   #       tags = ["Foo", "Bar"]
-   #       request_tags_xml = @client.send(:xml_for_tags, tags)
-   #       response_tags_xml = test_data('contacts_add_tag_response.xml')
-   #
-   #
-   #    end
-   # end
+   describe "#contacts_add_tag" do
+      it "returns the newly added tags" do
+         tag_options = {
+            tags: ["TestTag1", "TestTag2"],
+            contact_id: '7'
+         }
+         request_tags_xml = @client.send(:xml_for_tag, tag_options)
+         response_tags_xml = test_data('contacts_add_tag_response.xml')
+
+         request_body = request_body('add_tag', 'data' => request_tags_xml)
+         stub_request(:post, @contact_endpoint).with(:body => request_body).to_return(:body => response_tags_xml)
+
+         tags = @client.contacts_add_tag(tag_options)
+         WebMock.should have_requested(:post, @contact_endpoint).with(:body => request_body)
+         
+         tags.first.should eq("TestTag1")
+         tags.last.should eq("TestTag2")
+      end
+   end
 
    describe "#contacts_pull_tag" do
       it "returns all the contact tag names and ids" do
