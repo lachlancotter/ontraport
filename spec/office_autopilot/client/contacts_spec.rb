@@ -116,6 +116,19 @@ describe OfficeAutopilot::Client::Contacts do
       end
    end
 
+   describe "#xml_for_tag" do
+      it "generates a valid tags xml with the contact id" do
+         @tag_options = {
+            tags: ["Tag1", "Tag2"],
+            contact_id: "1234"
+         }
+         xml = Nokogiri::XML( @client.send(:xml_for_tag, @tag_options) )
+         xml.at_css('contact')['id'].should == '1234'
+         contact_info = xml.css("contact tag").first.content.should eq("Tag1")
+         contact_info = xml.css("contact tag").last.content.should eq("Tag2")
+      end
+   end
+
    describe "#parse_contacts_xml" do
       context "when the results contain one contact" do
          it "returns an array containing the contact" do
@@ -173,6 +186,16 @@ describe OfficeAutopilot::Client::Contacts do
          contact['Lead Information']['Contact Owner'].should == 'Don Corleone'
       end
    end
+
+   # describe "#contacts_add_tag" do
+   #    it "returns the newly added tags" do
+   #       tags = ["Foo", "Bar"]
+   #       request_tags_xml = @client.send(:xml_for_tags, tags)
+   #       response_tags_xml = test_data('contacts_add_tag_response.xml')
+   # 
+   # 
+   #    end
+   # end
 
    describe "#contacts_pull_tag" do
       it "returns all the contact tag names and ids" do

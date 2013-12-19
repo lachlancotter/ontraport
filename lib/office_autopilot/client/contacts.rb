@@ -121,6 +121,16 @@ module OfficeAutopilot
             end
          end
 
+         def xml_for_tag (options)
+            attrs = { id: options[:contact_id] }
+            xml = Builder::XmlMarkup.new
+            xml.contact(attrs) do
+               options[:tags].each do |tag_name|
+                  xml.tag(tag_name)
+               end
+            end
+         end
+
          def xml_for_fetch(type, ids)
             xml = ""
             ids.each do |id|
