@@ -94,6 +94,10 @@ module OfficeAutopilot
             groups
          end
 
+         def parse_tags_xml (response)
+            Nokogiri::XML(response).css('result tag').map { |node| node.content }
+         end
+
          def parse_xml(response, element_name)
             result = {}
             xml = Nokogiri::XML(response)

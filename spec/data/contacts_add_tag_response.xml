@@ -1,0 +1,6 @@
+<result>
+	<contact id='66238' status='success' date='1387431640' dlm='1387433615' score='0.00' bulk_mail='1'>
+		<tag status='success'>TestTag1</tag>
+		<tag status='success'>TestTag2</tag>
+	</contact>
+</result>

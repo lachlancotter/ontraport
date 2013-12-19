@@ -163,6 +163,15 @@ describe OfficeAutopilot::Client::Contacts do
       end
    end
 
+   describe "#parse_tags_xml" do
+      it "returns an array containing the tags that were added" do
+         tags = @client.send(:parse_tags_xml, test_data('contacts_add_tag_response.xml'))
+         tags.size.should eq(2)
+         tags.first.should eq("TestTag1")
+         tags.last.should eq("TestTag2")
+      end
+   end
+
    describe "#contacts_add" do
       it "returns the newly created contact" do
          contact_options = {
@@ -192,8 +201,8 @@ describe OfficeAutopilot::Client::Contacts do
    #       tags = ["Foo", "Bar"]
    #       request_tags_xml = @client.send(:xml_for_tags, tags)
    #       response_tags_xml = test_data('contacts_add_tag_response.xml')
-   # 
-   # 
+   #
+   #
    #    end
    # end
 
